@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+#define SCREEN_SIZE_X 240
+#define SCREEN_SIZE_Y 240
+
 #define HIL_BUTTON_UP (1u << 0)
 #define HIL_BUTTON_DOWN (1u << 1)
 #define HIL_BUTTON_LEFT (1u << 2)

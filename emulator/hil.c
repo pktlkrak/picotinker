@@ -1,11 +1,12 @@
 #include "hil.h"
 
+#include "render_texture.h"
 #include "window.h"
 #include <stddef.h>
 
 void hil_init() { window_init(); }
 
-uint8_t *hil_get_display_buffer() { return NULL; }
+uint8_t *hil_get_display_buffer() { return render_texture_get_buffer(); }
 
 void hil_display() {
     window_poll_events();

@@ -1,5 +1,6 @@
 #include "window.h"
 
+#include "render_texture.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
@@ -24,14 +25,29 @@ void window_init() {
         exit(-1);
     }
 
+    render_texture_init(renderer);
+
+    SDL_SetRenderVSync(renderer, 1);
     SDL_ShowWindow(window);
 }
 
 void window_render() {
+    int window_size_x, window_size_y;
+    if (!SDL_GetWindowSizeInPixels(window, &window_size_x, &window_size_y)) {
+        fprintf(stderr, "SDL_GetWindowSizeInPixels error: %s\n",
+                SDL_GetError());
+        exit(-1);
+    }
+
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
     SDL_RenderClear(renderer);
 
-    SDL_RenderPresent(renderer);
+    render_texture_blit(renderer, window_size_x, window_size_y);
+
+    if (!SDL_RenderPresent(renderer)) {
+        fprintf(stderr, "SDL_RenderPresent error: %s\n", SDL_GetError());
+        exit(-1);
+    }
 }
 
 static void window_handle_events(const SDL_Event *event) {
