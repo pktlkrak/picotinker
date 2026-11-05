@@ -8,13 +8,12 @@ for x in sorted(listdir(".")):
     print(f"{x}...")
     if x.startswith("frame"):
         img = Image.open(x)
-        output = b''
         last = 0
         counter = 0
-        for y in range(240):
-            for x_ in range(240):
+        for y in range(120):
+            for x_ in range(120):
                 p = img.getpixel((x_, y))
-                norm = 0 if p[0] == 0 else 1
+                norm = 1 if p[0] else 0
                 if last == norm:
                     counter += 1
                     if counter == 0b111_1111_1111_1111:

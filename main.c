@@ -4,19 +4,58 @@
 #include <pico/time.h>
 
 uint16_t *decompress_bad_apple_frame(uint8_t *output, uint16_t *frames) {
+    int x = 0, y = 0;
     int pixels = 0;
 
-    while (pixels < 240 * 240) {
+    while (pixels < 120 * 120) {
         uint16_t part = *frames++;
 
         if (part & 0x8000) {
             part &= ~0x8000;
-            for (int i = 0; i < part * 3; i++) {
-                *output++ = 0xFF;
+            for (int i = 0; i < part; i++) {
+                output[(y * 240 + x) * 3 + 0] = 0xFF;
+                output[(y * 240 + x) * 3 + 1] = 0xFF;
+                output[(y * 240 + x) * 3 + 2] = 0xFF;
+
+                output[(y * 240 + x + 1) * 3 + 0] = 0xFF;
+                output[(y * 240 + x + 1) * 3 + 1] = 0xFF;
+                output[(y * 240 + x + 1) * 3 + 2] = 0xFF;
+
+                output[((y + 1) * 240 + x) * 3 + 0] = 0xFF;
+                output[((y + 1) * 240 + x) * 3 + 1] = 0xFF;
+                output[((y + 1) * 240 + x) * 3 + 2] = 0xFF;
+
+                output[((y + 1) * 240 + x + 1) * 3 + 0] = 0xFF;
+                output[((y + 1) * 240 + x + 1) * 3 + 1] = 0xFF;
+                output[((y + 1) * 240 + x + 1) * 3 + 2] = 0xFF;
+                x += 2;
+                if (x == 240) {
+                    y += 2;
+                    x = 0;
+                }
             }
         } else {
-            for (int i = 0; i < part * 3; i++) {
-                *output++ = 0x00;
+            for (int i = 0; i < part; i++) {
+                output[(y * 240 + x) * 3 + 0] = 0x00;
+                output[(y * 240 + x) * 3 + 1] = 0x00;
+                output[(y * 240 + x) * 3 + 2] = 0x00;
+
+                output[(y * 240 + x + 1) * 3 + 0] = 0x00;
+                output[(y * 240 + x + 1) * 3 + 1] = 0x00;
+                output[(y * 240 + x + 1) * 3 + 2] = 0x00;
+
+                output[((y + 1) * 240 + x) * 3 + 0] = 0x00;
+                output[((y + 1) * 240 + x) * 3 + 1] = 0x00;
+                output[((y + 1) * 240 + x) * 3 + 2] = 0x00;
+
+                output[((y + 1) * 240 + x + 1) * 3 + 0] = 0x00;
+                output[((y + 1) * 240 + x + 1) * 3 + 1] = 0x00;
+                output[((y + 1) * 240 + x + 1) * 3 + 2] = 0x00;
+                x += 2;
+                if (x == 240) {
+                    y += 2;
+                    x = 0;
+                }
             }
         }
         pixels += part;
@@ -32,10 +71,10 @@ void bad_apple() {
     uint16_t *frames_end = (uint16_t *)(FRAMES + sizeof(FRAMES));
 
     while (frames_main < frames_end) {
+        uint64_t start = time_us_64();
         frames_main = decompress_bad_apple_frame(frame, frames_main);
         display_send_framebuffer_dma(frame, sizeof(frame));
-        uint64_t start = time_us_64();
-        while (time_us_64() - start < 125000) {
+        while ((time_us_64() - start) < 43470) {
         }
     }
 }
