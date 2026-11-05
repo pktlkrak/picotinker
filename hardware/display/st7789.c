@@ -68,6 +68,11 @@ void display_init() {
 }
 
 void display_send_framebuffer_dma(uint8_t *data, int length) {
+    if (dma_channel_is_busy(disp_spi_dma_tx)) {
+        dma_channel_wait_for_finish_blocking(disp_spi_dma_tx);
+        sleep_us(ST7789_DC_SLEEP_US);
+    }
+
     display_mode_set_data_mode(DISPLAY_COMMAND_MODE);
     sleep_us(ST7789_DC_SLEEP_US);
     SEND_CMDS(ST7789_CASET, 0x00, 0, SCREEN_SIZE_X >> 8, SCREEN_SIZE_X & 0xFF);
@@ -85,6 +90,4 @@ void display_send_framebuffer_dma(uint8_t *data, int length) {
     channel_config_set_write_increment(&c, false);
     dma_channel_configure(disp_spi_dma_tx, &c, &spi_get_hw(SPI_DISPLAY)->dr,
                           data, length, true);
-    dma_channel_wait_for_finish_blocking(disp_spi_dma_tx);
-    sleep_us(ST7789_DC_SLEEP_US);
 }
