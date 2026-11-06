@@ -45,6 +45,7 @@ endif()
 
 add_executable(pico_tinker
         main.c
+         minlzma/minlzlib/inputbuf.c minlzma/minlzlib/dictbuf.c minlzma/minlzlib/lzma2dec.c minlzma/minlzlib/lzmadec.c minlzma/minlzlib/rangedec.c minlzma/minlzlib/xzcrc.c minlzma/minlzlib/xzstream.c
         )
 
 add_subdirectory(hil)
