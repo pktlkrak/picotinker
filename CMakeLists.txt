@@ -45,6 +45,8 @@ endif()
 
 add_executable(pico_tinker
         main.c
+        graphics/graphics.c
+        lib/Adafruit-GFX/Adafruit_GFX.c
         )
 
 add_subdirectory(hil)
@@ -52,6 +54,12 @@ add_subdirectory(hil)
 target_link_libraries(pico_tinker
         pico_tinker_hil
         )
+
+if (NOT MSVC)
+        target_link_libraries(pico_tinker
+                m
+                )
+endif()
 
 if (NOT PICO_TINKER_EMULATOR_BUILD)
 
