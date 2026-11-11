@@ -1,0 +1,7 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "2026-02-17_20-55-50") (type "KiCad") (uri "${KIPRJMOD}/TCR8BM33A_L3F/KiCADv6/2026-02-17_20-55-50.kicad_sym") (options "") (descr ""))
+	(lib (name "ti bq") (type "KiCad") (uri "${KIPRJMOD}/ul_BQ25186DLHR/2026-10-27_01-13-38.kicad_sym") (options "") (descr ""))
+	(lib (name "Library") (type "KiCad") (uri "${KIPRJMOD}") (options "") (descr ""))
+	(lib (name "legacy") (type "KiCad") (uri "${KIPRJMOD}/legacy/BMP180.kicad_sym") (options "") (descr ""))
+)
