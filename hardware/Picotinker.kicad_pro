@@ -39,9 +39,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.0,
-          "height": 0.2135,
-          "width": 0.2885
+          "drill": 2.2,
+          "height": 2.2,
+          "width": 2.2
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -719,7 +719,7 @@
         "uuid": "75796f0e-c7bb-4022-b2fb-227ab57b0aaa"
       }
     ],
-    "used_designators": "#FLG4,#PWR3-6,#PWR49-64,#PWR66-69,#PWR71-73,#PWR75-76,#PWR78-80,#PWR82-84,#PWR101-112,#PWR114-119,BT1-2,BTN9-10,C1-4,C7-23,C30-33,C42,D1-2,DIR2-8,J3-7,PWRBTN1,Q1-3,R1-9,R54,RESET1,RV1-3,TH1,U1-7,USBDEV1,USB_BOOT1",
+    "used_designators": "#FLG4,#PWR3-6,#PWR49-64,#PWR66-69,#PWR71-73,#PWR75-76,#PWR78-80,#PWR82-84,#PWR101-112,#PWR114-119,BT1-2,BTN9-10,C1-4,C7-23,C30-33,C42,D1-2,DIR2-8,H1-9,J3-7,PWRBTN1,Q1-3,R1-9,R54,RESET1,RV1-3,TH1,U1-7,USBDEV1,USB_BOOT1",
     "variants": []
   },
   "sheets": [
