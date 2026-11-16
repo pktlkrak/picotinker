@@ -1,6 +1,6 @@
 build/
 .vscode/
 pico_sdk_import.cmake
-pcb/*backups/
-pcb/*.bak
-
+hardware/*backups/
+hardware/*.bak
+hardware/*.lck
