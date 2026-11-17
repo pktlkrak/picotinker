@@ -20,6 +20,9 @@ void super_advanced_fps_meter_draw() {
 
 int main() {
     hil_init();
+    hil_debug_init();
+    hil_debug_printf(
+        "Hello, the answer to life, universe and everything is %d\n", 42);
 
     while (1) {
         super_advanced_fps_meter_draw();

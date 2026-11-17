@@ -12,17 +12,32 @@
 #define HIL_BUTTON_DPAD_DOWN (1u << 5)
 #define HIL_BUTTON_DPAD_LEFT (1u << 6)
 #define HIL_BUTTON_DPAD_RIGHT (1u << 7)
+#define HIL_BUTTON_START (1u << 8)
+#define HIL_BUTTON_SELECT (1u << 9)
 
-typedef uint8_t hil_button_state_t;
+typedef uint16_t hil_button_state_t;
+typedef uint8_t potentiometer_state_t;
 
 void hil_init();
 
-uint8_t *hil_get_display_buffer();
+// *********************** DISPLAY ************************
 
+uint8_t *hil_get_display_buffer();
 void hil_display();
 
+// ************************ INPUTS ************************
+
 hil_button_state_t hil_get_button_state();
+potentiometer_state_t hil_get_pot1_state();
+potentiometer_state_t hil_get_pot2_state();
+potentiometer_state_t hil_get_pot3_state();
+
+// ******************** DELAY FUNCTIONS *******************
 
 void hil_wait();
+void hil_sleep(int millis);
 
-void hil_sleep();
+// ********************** DEBUGGING ***********************
+
+void hil_debug_init();
+void hil_debug_printf(const char *format, ...);
