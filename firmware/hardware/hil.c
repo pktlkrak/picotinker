@@ -3,7 +3,9 @@
 #include "display/st7789.h"
 #include <pico/stdlib.h>
 #include <pico/time.h>
+#include <stdarg.h>
 #include <stdint.h>
+#include <stdio.h>
 
 static uint8_t render_buffer[2][SCREEN_SIZE_X * SCREEN_SIZE_Y * 3];
 static size_t render_buffer_index = 0;
@@ -24,3 +26,12 @@ void hil_wait() {}
 
 void hil_sleep(int millis) {}
 uint64_t hil_get_time() { return 0; }
+
+void hil_debug_init() { stdio_init_all(); }
+
+void hil_debug_printf(const char *format, ...) {
+    va_list vl;
+    va_start(vl, format);
+    vprintf(format, vl);
+    va_end(vl);
+}
