@@ -22,4 +22,5 @@ hil_button_state_t hil_get_button_state() { return 0; }
 
 void hil_wait() {}
 
-void hil_sleep() {}
+void hil_sleep(int millis) {}
+uint64_t hil_get_time() { return 0; }

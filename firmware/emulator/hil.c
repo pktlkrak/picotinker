@@ -2,6 +2,7 @@
 
 #include "render_texture.h"
 #include "window.h"
+#include <SDL3/SDL_timer.h>
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -29,3 +30,5 @@ hil_button_state_t hil_get_button_state() { return 0; }
 void hil_wait() {}
 
 void hil_sleep(int millis) {}
+
+uint64_t hil_get_time() { return SDL_GetTicks(); }
