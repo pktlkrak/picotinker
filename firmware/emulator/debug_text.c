@@ -11,7 +11,7 @@
 static char window_debug_text_buffer[500];
 static uint64_t window_debug_text_time_start = 0;
 
-void window_show_debug_text(const char *format, ...) {
+void window_debug_text_show(const char *format, ...) {
     va_list vl;
     va_start(vl, format);
     vsnprintf(window_debug_text_buffer, sizeof(window_debug_text_buffer),
@@ -20,7 +20,7 @@ void window_show_debug_text(const char *format, ...) {
     va_end(vl);
 }
 
-void render_debug_text(SDL_Renderer *renderer) {
+void window_debug_text_render(SDL_Renderer *renderer) {
     if (SDL_GetTicks() - window_debug_text_time_start <
         WINDOW_DEBUG_TEXT_DURATION) {
         // The font of RenderDebugText is 8x8 - the rect has to be a bit bigger,

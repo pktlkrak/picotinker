@@ -44,7 +44,7 @@ void window_render() {
     SDL_RenderClear(renderer);
 
     render_texture_blit(renderer, window_size_x, window_size_y);
-    render_debug_text(renderer);
+    window_debug_text_render(renderer);
 
     if (!SDL_RenderPresent(renderer)) {
         fprintf(stderr, "SDL_RenderPresent error: %s\n", SDL_GetError());

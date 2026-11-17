@@ -5,5 +5,5 @@
 #define WINDOW_DEBUG_TEXT_X 20
 #define WINDOW_DEBUG_TEXT_Y 20
 
-void render_debug_text(SDL_Renderer *renderer);
-void window_show_debug_text(const char *format, ...);
+void window_debug_text_render(SDL_Renderer *renderer);
+void window_debug_text_show(const char *format, ...);
