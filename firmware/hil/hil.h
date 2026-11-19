@@ -36,6 +36,7 @@ potentiometer_state_t hil_get_pot3_state();
 
 void hil_wait();
 void hil_sleep(int millis);
+uint64_t hil_get_time();
 
 // ********************** DEBUGGING ***********************
 
