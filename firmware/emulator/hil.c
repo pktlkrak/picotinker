@@ -25,7 +25,9 @@ void hil_display() {
     window_render();
 }
 
-hil_button_state_t hil_get_button_state() { return 0; }
+hil_button_state_t hil_get_button_state() {
+    return window_get_current_button_state();
+}
 
 void hil_wait() {}
 

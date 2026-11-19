@@ -19,6 +19,7 @@ void super_advanced_fps_meter_draw() {
 }
 
 int main() {
+    hil_button_state_t btns;
     hil_init();
     hil_debug_init();
     hil_debug_printf(
@@ -26,6 +27,10 @@ int main() {
 
     while (1) {
         super_advanced_fps_meter_draw();
+        btns = hil_get_button_state();
+        if (btns) {
+            hil_debug_printf("Buttons bitset: %03x\n", btns);
+        }
         hil_display();
     }
 }
