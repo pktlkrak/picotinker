@@ -15,6 +15,8 @@
 #define TETRIS_KICKTEST_COUNT 5
 #define TETRIS_DRAW_SCALE 3
 #define TETRIS_CELL_SIZE 3 * TETRIS_DRAW_SCALE
+#define TETRIS_CLEAR_DELAY 20
+#define TETRIS_BLINK_DELAY 5
 
 typedef enum {
     TETRIS_I_IDX = 0,
@@ -49,6 +51,8 @@ static const color_t TETRIS_COLORS[7] = {
 };
 
 static const color_t TETRIS_BORDER_COLOR = {0x4a, 0x52, 0x62};
+
+static const color_t TETRIS_BLACK_COLOR = {0x00, 0x00, 0x00};
 
 static const uint8_t TETRIS_I[4][4] = {
     {0, 0, 0, 0},
@@ -156,6 +160,8 @@ void move_right(tet_pos_t *pos);
 bool move_down(tet_pos_t *pos);
 
 void lock_tetromino(TETROMINOES *curr, tet_pos_t *pos);
+
+void drop_cleared();
 
 void clear_lines();
 
