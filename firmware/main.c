@@ -1,5 +1,5 @@
-#include "hil.h"
 #include "apps/tetris.h"
+#include "hil.h"
 #include <string.h>
 
 void super_advanced_fps_meter_draw() {
