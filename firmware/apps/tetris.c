@@ -15,9 +15,25 @@ static bool has_tetromino = false;
 static bool game_over = false;
 static hil_button_state_t prev_key = 0;
 
+static uint8_t clear_delay = 0;
+static bool clearing_lines = false;
+static bool blink = true;
+static bool full_rows[TETRIS_ARENA_HEIGHT] = {false};
+
 void step(hil_button_state_t *btn_state) {
     if (game_over)
         return;
+
+    if (clear_delay > 0) {
+        if (clear_delay % TETRIS_BLINK_DELAY == 0)
+            blink = !blink;
+        clear_delay--;
+        return;
+    } else if (clearing_lines) {
+        drop_cleared();
+        blink = true;
+        return;
+    }
 
     if (!has_tetromino) {
         if (is_bag_empty())
@@ -37,7 +53,8 @@ void step(hil_button_state_t *btn_state) {
     if (!move_down(&curr_pos)) {
         lock_tetromino(&current, &curr_pos);
         clear_lines();
-        has_tetromino = false;
+        if (!clearing_lines)
+            has_tetromino = false;
     }
 }
 
@@ -122,24 +139,30 @@ void draw() {
     for (uint8_t y = 0; y < TETRIS_ARENA_HEIGHT; y++) {
         for (uint8_t x = 0; x < TETRIS_ARENA_WIDTH; x++) {
             if (arena[y][x] != 0) {
+                color_t color;
+                if (full_rows[y] && blink)
+                    color = TETRIS_BLACK_COLOR;
+                else
+                    color = TETRIS_COLORS[arena[y][x] - 1];
                 draw_cell(buffer, x + TETRIS_ARENA_X_OFFSET,
-                          y + TETRIS_ARENA_Y_OFFSET,
-                          TETRIS_COLORS[arena[y][x] - 1]);
+                          y + TETRIS_ARENA_Y_OFFSET, color);
             }
         }
     }
 
     // active tetromino
-    const tetromino_def_t *block = &TETRIS_BLOCKS[current];
-    for (uint8_t y = 0; y < block->size; y++) {
-        for (uint8_t x = 0; x < block->size; x++) {
-            uint8_t cell = get_rotated(block, curr_pos.r, x, y);
-            if (cell) {
-                uint8_t arena_x = curr_pos.x + x;
-                uint8_t arena_y = curr_pos.y + y;
-                draw_cell(buffer, arena_x + TETRIS_ARENA_X_OFFSET,
-                          arena_y + TETRIS_ARENA_Y_OFFSET,
-                          TETRIS_COLORS[current]);
+    if (has_tetromino) {
+        const tetromino_def_t *block = &TETRIS_BLOCKS[current];
+        for (uint8_t y = 0; y < block->size; y++) {
+            for (uint8_t x = 0; x < block->size; x++) {
+                uint8_t cell = get_rotated(block, curr_pos.r, x, y);
+                if (cell) {
+                    uint8_t arena_x = curr_pos.x + x;
+                    uint8_t arena_y = curr_pos.y + y;
+                    draw_cell(buffer, arena_x + TETRIS_ARENA_X_OFFSET,
+                              arena_y + TETRIS_ARENA_Y_OFFSET,
+                              TETRIS_COLORS[current]);
+                }
             }
         }
     }
@@ -369,27 +392,45 @@ void lock_tetromino(TETROMINOES *curr, tet_pos_t *pos) {
             }
         }
     }
+
+    has_tetromino = false;
+}
+
+void drop_cleared() {
+    for (int8_t y = TETRIS_ARENA_HEIGHT - 1; y > 0; y--) {
+        if (full_rows[y]) {
+            for (int8_t shift_y = y; shift_y > 0; shift_y--) {
+                memcpy(arena[shift_y], arena[shift_y - 1], TETRIS_ARENA_WIDTH);
+                full_rows[shift_y] = full_rows[shift_y - 1];
+            }
+            memset(arena[0], 0, TETRIS_ARENA_WIDTH);
+            full_rows[0] = false;
+            y++;
+        }
+    }
+
+    clearing_lines = false;
+    has_tetromino = false;
 }
 
 void clear_lines() {
+    clearing_lines = false;
+    memset(full_rows, 0, sizeof(full_rows));
+
     for (int8_t y = TETRIS_ARENA_HEIGHT - 1; y >= 0; y--) {
         bool full = true;
-        for (int8_t x = 0; x < TETRIS_ARENA_WIDTH; x++) {
+        for (uint8_t x = 0; x < TETRIS_ARENA_WIDTH; x++) {
             if (arena[y][x] == 0) {
                 full = false;
                 break;
             }
         }
 
-        if (!full)
-            continue;
-
-        for (uint8_t shift_y = y; shift_y > 0; shift_y--) {
-            memcpy(arena[shift_y], arena[shift_y - 1], TETRIS_ARENA_WIDTH);
+        if (full) {
+            full_rows[y] = true;
+            clearing_lines = true;
+            clear_delay = TETRIS_CLEAR_DELAY;
         }
-        memset(arena[0], 0, TETRIS_ARENA_WIDTH);
-
-        y++;
     }
 }
 
