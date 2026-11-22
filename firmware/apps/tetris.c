@@ -1,5 +1,6 @@
 #include "tetris.h"
 #include "hil.h"
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -37,27 +38,62 @@ void step(hil_button_state_t* btn_state)
     }
 }
 
+void draw_cell(uint8_t* buffer, uint8_t x, uint8_t y, color_t color)
+{
+    uint8_t start_x = x * TETRIS_CELL_SIZE;
+    uint8_t start_y = y * TETRIS_CELL_SIZE;
+
+    for (uint8_t dy = 0; dy < TETRIS_CELL_SIZE; dy++)
+    {
+        for (uint8_t dx = 0; dx < TETRIS_CELL_SIZE; dx++)
+        {
+            uint8_t screen_x = start_x + dx;
+            uint8_t screen_y = start_y + dy;
+
+            if (screen_x < SCREEN_SIZE_X && screen_y < SCREEN_SIZE_Y)
+            {
+                size_t index = ((size_t)screen_y * SCREEN_SIZE_X + screen_x) * 3;
+                uint8_t grad_x = dx / TETRIS_DRAW_SCALE;
+                uint8_t grad_y = dy / TETRIS_DRAW_SCALE;
+                color_t grad = TETRIS_BLOCK_GRADIENT[grad_y * 3 + grad_x];
+                buffer[index + 0] = (color.r * grad.r) / 255;
+                buffer[index + 1] = (color.g * grad.g) / 255;
+                buffer[index + 2] = (color.b * grad.b) / 255;
+            }
+        }
+    }
+}
+
 void draw()
 {
     uint8_t *buffer = hil_get_display_buffer();
 
     memset(buffer, 0, SCREEN_SIZE_X * SCREEN_SIZE_Y * 3);
 
+    //border
+    for(uint8_t y = 0; y < TETRIS_ARENA_HEIGHT + 1; y++)
+    {
+        for(uint8_t x = 0; x < TETRIS_ARENA_WIDTH + 2; x++)
+        {
+            if(y != TETRIS_ARENA_HEIGHT && x != 0 && x != TETRIS_ARENA_WIDTH + 1) continue;
+            draw_cell(buffer, x + TETRIS_ARENA_X_OFFSET - 1, y + TETRIS_ARENA_Y_OFFSET, TETRIS_BORDER_COLOR);
+        }
+    }
+
+    //locked tetrominoes
     for(uint8_t y = 0; y < TETRIS_ARENA_HEIGHT; y++)
     {
         for(uint8_t x = 0; x < TETRIS_ARENA_WIDTH; x++)
         {
-            if(arena[y][x] == 1)
+            if(arena[y][x] != 0)
             {
-                buffer[(y * SCREEN_SIZE_X + x) * 3 + 0] = 0xff;
-                buffer[(y * SCREEN_SIZE_X + x) * 3 + 1] = 0xff;
-                buffer[(y * SCREEN_SIZE_X + x) * 3 + 2] = 0xff;
+                draw_cell(buffer, x + TETRIS_ARENA_X_OFFSET, y + TETRIS_ARENA_Y_OFFSET, TETRIS_COLORS[arena[y][x] - 1]);
             }
         }
     }
 
+    //active tetromino
     const tetromino_def_t *block = &TETRIS_BLOCKS[current];
-
     for(uint8_t y = 0; y < block->size; y++)
     {
         for(uint8_t x = 0; x < block->size; x++)
@@ -67,9 +103,7 @@ void draw()
             {
                 uint8_t arena_x = curr_pos.x + x;
                 uint8_t arena_y = curr_pos.y + y;
-                buffer[(arena_y * SCREEN_SIZE_X + arena_x) * 3 + 0] = 0xff;
-                buffer[(arena_y * SCREEN_SIZE_X + arena_x) * 3 + 1] = 0x00;
-                buffer[(arena_y * SCREEN_SIZE_X + arena_x) * 3 + 2] = 0x00; 
+                draw_cell(buffer, arena_x + TETRIS_ARENA_X_OFFSET,  arena_y + TETRIS_ARENA_Y_OFFSET, TETRIS_COLORS[current]);
             }
         }
     }
@@ -79,7 +113,7 @@ void spawn_tetromino(TETROMINOES* curr, tet_pos_t* pos)
 {
     *curr = get_tetromino();
     pos->x = (TETRIS_ARENA_WIDTH - TETRIS_BLOCKS[*curr].size) / 2;
-    pos->y = 0;
+    pos->y = -1;
     pos->r = 0;
     has_tetromino = true;
 }
@@ -188,6 +222,7 @@ void handle_game_over()
 
 void rotate_clockwise(tet_pos_t* pos)
 {
+    delay = TETRIS_MOVE_DELAY;
     if (current == TETRIS_O_IDX) return;
 
     uint8_t next_r = (pos->r + 1) & 3;
@@ -211,12 +246,11 @@ void rotate_clockwise(tet_pos_t* pos)
             return;
         }
     }
-
-    delay = TETRIS_MOVE_DELAY;
 }
 
 void rotate_anticlockwise(tet_pos_t* pos)
 {
+    delay = TETRIS_MOVE_DELAY;
     if (current == TETRIS_O_IDX) return;
 
     uint8_t next_r = (pos->r + 3) & 3;
@@ -240,8 +274,6 @@ void rotate_anticlockwise(tet_pos_t* pos)
             return;
         }
     }
-
-    delay = TETRIS_MOVE_DELAY;
 }
 
 void drop(tet_pos_t* pos)
@@ -305,7 +337,7 @@ void lock_tetromino(TETROMINOES* curr, tet_pos_t* pos)
             if (cell && arena_y >= 0 && arena_y < TETRIS_ARENA_HEIGHT &&
                 arena_x >= 0 && arena_x < TETRIS_ARENA_WIDTH)
             {
-                arena[arena_y][arena_x] = 1;
+                arena[arena_y][arena_x] = *curr + 1;
             }
         }
     }
@@ -313,11 +345,19 @@ void lock_tetromino(TETROMINOES* curr, tet_pos_t* pos)
 
 void clear_lines()
 {
-    static const uint8_t ones[TETRIS_ARENA_WIDTH] = {1,1,1,1,1,1,1,1,1,1};
-
     for(int8_t y = TETRIS_ARENA_HEIGHT - 1; y >= 0; y--)
     {
-        if(memcmp(arena[y], ones, TETRIS_ARENA_WIDTH) != 0) continue;
+        bool full = true;
+        for(int8_t x = 0; x < TETRIS_ARENA_WIDTH; x++)
+        {
+            if(arena[y][x] == 0)
+            {
+                full = false;
+                break;
+            }
+        }
+
+        if(!full) continue;
 
         for(uint8_t shift_y = y; shift_y > 0; shift_y--)
         {
