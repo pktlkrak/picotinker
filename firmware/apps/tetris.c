@@ -10,6 +10,7 @@ static uint8_t delay = TETRIS_MOVE_DELAY;
 
 static tet_pos_t curr_pos;
 static TETROMINOES current;
+static TETROMINOES held = -1;
 static bool has_tetromino = false;
 static bool game_over = false;
 static hil_button_state_t prev_key = 0;
@@ -76,6 +77,44 @@ void draw() {
                 continue;
             draw_cell(buffer, x + TETRIS_ARENA_X_OFFSET - 1,
                       y + TETRIS_ARENA_Y_OFFSET, TETRIS_BORDER_COLOR);
+        }
+    }
+
+    // hold area
+    const uint8_t box_x = TETRIS_ARENA_X_OFFSET + TETRIS_ARENA_WIDTH + 2;
+    const uint8_t box_y = TETRIS_ARENA_Y_OFFSET;
+    const uint8_t inner_size = TETRIS_ARENA_HELD_SIZE - 2;
+
+    for (uint8_t y = 0; y < TETRIS_ARENA_HELD_SIZE; y++) {
+        for (uint8_t x = 0; x < TETRIS_ARENA_HELD_SIZE; x++) {
+            if (y != 0 && x != 0 && y != TETRIS_ARENA_HELD_SIZE - 1 &&
+                x != TETRIS_ARENA_HELD_SIZE - 1)
+                continue;
+            draw_cell(buffer, box_x + x, box_y + y, TETRIS_BORDER_COLOR);
+        }
+    }
+
+    // held tetromino
+    if (held != -1) {
+        const tetromino_def_t *block = &TETRIS_BLOCKS[held];
+
+        int8_t offset_x =
+            (int8_t)(box_x + 1) + (int8_t)(inner_size - block->size) / 2;
+        int8_t offset_y =
+            (int8_t)(box_y + 1) + (int8_t)(inner_size - block->size) / 2 + 1;
+
+        if (held == TETRIS_I_IDX || held == TETRIS_O_IDX)
+            offset_y--;
+
+        for (uint8_t y = 0; y < block->size; y++) {
+            for (uint8_t x = 0; x < block->size; x++) {
+                uint8_t cell = get_rotated(block, 0, x, y);
+                if (cell) {
+                    uint8_t arena_x = (uint8_t)(offset_x + (int8_t)x);
+                    uint8_t arena_y = (uint8_t)(offset_y + (int8_t)y);
+                    draw_cell(buffer, arena_x, arena_y, TETRIS_COLORS[held]);
+                }
+            }
         }
     }
 
@@ -169,6 +208,10 @@ void handle_input(hil_button_state_t *btn_state) {
         break;
     case HIL_BUTTON_DPAD_UP:
     case HIL_BUTTON_UP:
+        hold(&curr_pos);
+        break;
+    case HIL_BUTTON_DPAD_DOWN:
+    case HIL_BUTTON_DOWN:
         drop(&curr_pos);
         break;
     }
@@ -256,6 +299,26 @@ void rotate_anticlockwise(tet_pos_t *pos) {
             return;
         }
     }
+}
+
+void hold(tet_pos_t *pos) {
+    if (held == -1) {
+        held = current;
+        if (is_bag_empty())
+            get_new_bag();
+        spawn_tetromino(&current, &curr_pos);
+    } else {
+        TETROMINOES temp = held;
+        held = current;
+        current = temp;
+
+        pos->x = (TETRIS_ARENA_WIDTH - TETRIS_BLOCKS[current].size) / 2;
+        pos->y = -1;
+        pos->r = 0;
+        has_tetromino = true;
+    }
+
+    delay = TETRIS_MOVE_DELAY;
 }
 
 void drop(tet_pos_t *pos) {
