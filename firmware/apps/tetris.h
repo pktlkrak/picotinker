@@ -9,6 +9,7 @@
 #define TETRIS_ARENA_HEIGHT 20
 #define TETRIS_ARENA_X_OFFSET 2
 #define TETRIS_ARENA_Y_OFFSET 3
+#define TETRIS_ARENA_HELD_SIZE 6
 #define TETRIS_MOVE_DELAY 30
 #define TETRIS_BAG_SIZE 7
 #define TETRIS_KICKTEST_COUNT 5
@@ -145,6 +146,8 @@ void rotate_clockwise(tet_pos_t *pos);
 void rotate_anticlockwise(tet_pos_t *pos);
 
 void drop(tet_pos_t *pos);
+
+void hold(tet_pos_t *pos);
 
 void move_left(tet_pos_t *pos);
 
