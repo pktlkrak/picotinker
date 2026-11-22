@@ -47,6 +47,7 @@ add_executable(pico_tinker
         main.c
         graphics/graphics.c
         lib/Adafruit-GFX/Adafruit_GFX.c
+        apps/tetris.c
         )
 
 add_subdirectory(hil)

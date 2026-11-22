@@ -1,5 +1,5 @@
-#include "graphics/graphics.h"
 #include "hil.h"
+#include "apps/tetris.h"
 #include <string.h>
 
 void super_advanced_fps_meter_draw() {
@@ -26,11 +26,9 @@ int main() {
         "Hello, the answer to life, universe and everything is %d\n", 42);
 
     while (1) {
-        super_advanced_fps_meter_draw();
         btns = hil_get_button_state();
-        if (btns) {
-            hil_debug_printf("Buttons bitset: %03x\n", btns);
-        }
+        step(&btns);
+        draw();
         hil_display();
     }
 }
