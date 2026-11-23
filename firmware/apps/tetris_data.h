@@ -1,7 +1,9 @@
 #pragma once
 
-#include <stdint.h>
 #include "../graphics/color.h"
+#include "hil.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 #define TETRIS_ARENA_WIDTH 10
 #define TETRIS_ARENA_HEIGHT 20
@@ -10,12 +12,14 @@
 #define TETRIS_ARENA_HELD_SIZE 6
 #define TETRIS_MOVE_DELAY 30
 #define TETRIS_BAG_SIZE 7
+#define TETRIS_FULL_BAG_MASK ((1u << TETRIS_BAG_SIZE) - 1u)
 #define TETRIS_KICKTEST_COUNT 5
 #define TETRIS_DRAW_SCALE 3
-#define TETRIS_CELL_SIZE 3 * TETRIS_DRAW_SCALE
+#define TETRIS_CELL_SIZE (3 * TETRIS_DRAW_SCALE)
 #define TETRIS_CLEAR_DELAY 60
 #define TETRIS_GAMEOVER_DELAY 90
 #define TETRIS_BLINK_DELAY 15
+#define TETRIS_ROT_MASK 3u
 
 typedef enum {
     TETRIS_NONE = -1,
@@ -32,12 +36,33 @@ typedef struct {
     int8_t x;
     int8_t y;
     uint8_t r;
-} tet_pos_t;
+} tetro_pos_t;
 
 typedef struct {
     const uint8_t *cells;
     uint8_t size;
 } tetromino_def_t;
+
+typedef struct {
+    uint8_t arena[TETRIS_ARENA_HEIGHT][TETRIS_ARENA_WIDTH];
+    uint8_t bag;
+
+    uint8_t move_delay;
+    uint8_t clear_delay;
+    uint8_t game_over_delay;
+
+    tetro_pos_t curr_pos;
+    tetromino_id_t active_tetro;
+    tetromino_id_t held_tetro;
+
+    hil_button_state_t prev_key;
+
+    bool has_tetromino;
+    bool clearing_lines;
+    bool is_blinking;
+    bool game_over;
+    bool full_rows[TETRIS_ARENA_HEIGHT];
+} tetris_state_t;
 
 static const uint8_t TETRIS_I[4][4] = {
     {0, 0, 0, 0},

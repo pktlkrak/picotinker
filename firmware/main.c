@@ -25,10 +25,11 @@ int main() {
     hil_debug_printf(
         "Hello, the answer to life, universe and everything is %d\n", 42);
 
+    tetris_init();
     while (1) {
         btns = hil_get_button_state();
-        step(&btns);
-        draw();
+        tetris_step(&btns);
+        tetris_draw();
         hil_display();
     }
 }
