@@ -12,17 +12,24 @@ static tet_pos_t curr_pos;
 static TETROMINOES current;
 static TETROMINOES held = -1;
 static bool has_tetromino = false;
-static bool game_over = false;
 static hil_button_state_t prev_key = 0;
 
 static uint8_t clear_delay = 0;
+static uint8_t game_over_delay = TETRIS_GAMEOVER_DELAY;
 static bool clearing_lines = false;
 static bool blink = true;
+static bool game_over = false;
 static bool full_rows[TETRIS_ARENA_HEIGHT] = {false};
 
 void step(hil_button_state_t *btn_state) {
-    if (game_over)
+    if (game_over) {
+        if (game_over_delay % TETRIS_BLINK_DELAY == 0)
+            blink = !blink;
+        if (game_over_delay == 0)
+            reset();
+        game_over_delay--;
         return;
+    }
 
     if (clear_delay > 0) {
         if (clear_delay % TETRIS_BLINK_DELAY == 0)
@@ -41,7 +48,8 @@ void step(hil_button_state_t *btn_state) {
 
         spawn_tetromino(&current, &curr_pos);
 
-        handle_game_over();
+        if (handle_game_over())
+            return;
     }
 
     handle_input(btn_state);
@@ -83,17 +91,16 @@ void draw_cell(uint8_t *buffer, uint8_t x, uint8_t y, color_t color) {
 
 void draw() {
     uint8_t *buffer = hil_get_display_buffer();
-
     memset(buffer, 0, SCREEN_SIZE_X * SCREEN_SIZE_Y * 3);
 
     // border
-    for (uint8_t y = 0; y < TETRIS_ARENA_HEIGHT + 1; y++) {
+    for (uint8_t y = 0; y < TETRIS_ARENA_HEIGHT + 2; y++) {
         for (uint8_t x = 0; x < TETRIS_ARENA_WIDTH + 2; x++) {
-            if (y != TETRIS_ARENA_HEIGHT && x != 0 &&
+            if (y != TETRIS_ARENA_HEIGHT + 1 && y != 0 && x != 0 &&
                 x != TETRIS_ARENA_WIDTH + 1)
                 continue;
             draw_cell(buffer, x + TETRIS_ARENA_X_OFFSET - 1,
-                      y + TETRIS_ARENA_Y_OFFSET, TETRIS_BORDER_COLOR);
+                      y + TETRIS_ARENA_Y_OFFSET - 1, TETRIS_BORDER_COLOR);
         }
     }
 
@@ -140,7 +147,7 @@ void draw() {
         for (uint8_t x = 0; x < TETRIS_ARENA_WIDTH; x++) {
             if (arena[y][x] != 0) {
                 color_t color;
-                if (full_rows[y] && blink)
+                if (full_rows[y] && !blink)
                     color = TETRIS_BLACK_COLOR;
                 else
                     color = TETRIS_COLORS[arena[y][x] - 1];
@@ -151,14 +158,16 @@ void draw() {
     }
 
     // active tetromino
-    if (has_tetromino) {
+    if ((!game_over && has_tetromino) || (game_over && !blink)) {
         const tetromino_def_t *block = &TETRIS_BLOCKS[current];
         for (uint8_t y = 0; y < block->size; y++) {
             for (uint8_t x = 0; x < block->size; x++) {
                 uint8_t cell = get_rotated(block, curr_pos.r, x, y);
                 if (cell) {
                     uint8_t arena_x = curr_pos.x + x;
-                    uint8_t arena_y = curr_pos.y + y;
+                    int8_t arena_y = curr_pos.y + y;
+                    if (arena_y < 0)
+                        continue;
                     draw_cell(buffer, arena_x + TETRIS_ARENA_X_OFFSET,
                               arena_y + TETRIS_ARENA_Y_OFFSET,
                               TETRIS_COLORS[current]);
@@ -168,10 +177,20 @@ void draw() {
     }
 }
 
+bool handle_game_over() {
+    if (!is_valid_position(&current, &curr_pos)) {
+        game_over = true;
+        return true;
+    }
+    return false;
+}
+
 void spawn_tetromino(TETROMINOES *curr, tet_pos_t *pos) {
     *curr = get_tetromino();
     pos->x = (TETRIS_ARENA_WIDTH - TETRIS_BLOCKS[*curr].size) / 2;
-    pos->y = -1;
+    pos->y = 0;
+    if (*curr == TETRIS_I_IDX)
+        pos->y--;
     pos->r = 0;
     has_tetromino = true;
 }
@@ -272,9 +291,21 @@ bool is_valid_position(TETROMINOES *curr, tet_pos_t *pos) {
     return true;
 }
 
-void handle_game_over() {
-    if (!is_valid_position(&current, &curr_pos))
-        game_over = true;
+void reset() {
+    memset(arena, 0, sizeof(arena));
+    memset(bag, 0, sizeof(bag));
+    delay = TETRIS_MOVE_DELAY;
+
+    held = -1;
+    has_tetromino = false;
+    prev_key = 0;
+
+    clear_delay = 0;
+    game_over_delay = TETRIS_GAMEOVER_DELAY;
+    clearing_lines = false;
+    blink = true;
+    game_over = false;
+    memset(full_rows, 0, sizeof(full_rows));
 }
 
 void rotate_clockwise(tet_pos_t *pos) {
@@ -336,7 +367,9 @@ void hold(tet_pos_t *pos) {
         current = temp;
 
         pos->x = (TETRIS_ARENA_WIDTH - TETRIS_BLOCKS[current].size) / 2;
-        pos->y = -1;
+        pos->y = 0;
+        if (current == TETRIS_I_IDX)
+            pos->y--;
         pos->r = 0;
         has_tetromino = true;
     }

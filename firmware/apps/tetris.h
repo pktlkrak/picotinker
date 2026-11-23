@@ -15,8 +15,9 @@
 #define TETRIS_KICKTEST_COUNT 5
 #define TETRIS_DRAW_SCALE 3
 #define TETRIS_CELL_SIZE 3 * TETRIS_DRAW_SCALE
-#define TETRIS_CLEAR_DELAY 20
-#define TETRIS_BLINK_DELAY 5
+#define TETRIS_CLEAR_DELAY 60
+#define TETRIS_GAMEOVER_DELAY 90
+#define TETRIS_BLINK_DELAY 15
 
 typedef enum {
     TETRIS_I_IDX = 0,
@@ -167,7 +168,9 @@ void clear_lines();
 
 void handle_input(hil_button_state_t *btn_state);
 
-void handle_game_over();
+bool handle_game_over();
+
+void reset();
 
 void spawn_tetromino(TETROMINOES *curr, tet_pos_t *pos);
 
