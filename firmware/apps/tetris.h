@@ -2,5 +2,6 @@
 
 #include "hil.h"
 
-void step(hil_button_state_t *btn_state);
-void draw(void);
+void tetris_init(void);
+void tetris_step(hil_button_state_t *btn_state);
+void tetris_draw(void);
