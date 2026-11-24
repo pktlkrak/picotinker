@@ -27,13 +27,15 @@ else()
         FetchContent_MakeAvailable(SDL)
 endif()
 
+
 add_library(pico_tinker_emulator
         hil.c
+        environment.c
         window.c
         render_texture.c
         )
 
-target_link_libraries(pico_tinker_emulator PRIVATE
+target_link_libraries(pico_tinker_emulator PUBLIC
         pico_tinker_hil
         SDL3::SDL3
         )

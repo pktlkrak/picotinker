@@ -24,7 +24,7 @@ hil_button_state_t hil_get_button_state() { return 0; }
 
 void hil_wait() {}
 
-void hil_sleep(int millis) {}
+void hil_sleep(int millis) { sleep_ms(millis); }
 uint64_t hil_get_time() { return 0; }
 
 void hil_debug_init() { stdio_init_all(); }

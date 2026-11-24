@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 4.3)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(PICO_NO_GC_SECTIONS ON)
 
 if (CMAKE_COMMAND MATCHES ".*pico-sdk.*")
         set(PICO_TINKER_EMULATOR_BUILD_DEFAULT OFF)
@@ -69,6 +70,9 @@ target_link_libraries(pico_tinker
         pico_tinker_hardware
         )
 
+pico_enable_stdio_usb(pico_tinker 1)
+pico_enable_stdio_uart(pico_tinker 0)
+
 pico_add_extra_outputs(pico_tinker)
 
 else()
@@ -78,5 +82,7 @@ add_subdirectory(emulator)
 target_link_libraries(pico_tinker
         pico_tinker_emulator
         )
+
+set_property(TARGET pico_tinker PROPERTY ENABLE_EXPORTS ON)
 
 endif()
