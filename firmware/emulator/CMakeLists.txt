@@ -31,6 +31,7 @@ add_library(pico_tinker_emulator
         hil.c
         window.c
         render_texture.c
+        debug_text.c
         )
 
 target_link_libraries(pico_tinker_emulator PRIVATE
