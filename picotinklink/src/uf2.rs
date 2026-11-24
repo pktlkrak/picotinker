@@ -29,6 +29,7 @@ impl UF2Block<'_> {
             };
         }
 
+        assert!(out.len() <= 476);
         write_next!(self.magic_start0);
         write_next!(self.magic_start1);
         write_next!(self.flags);
