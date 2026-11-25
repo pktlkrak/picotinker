@@ -1,10 +1,13 @@
 #include "bad_apple.h"
 #include "hardware/display/st7789.h"
-#include "hil.h"
-#include <pico/time.h>
+#include "hil/hil.h"
+#include "hil/environment.h"
 #include <stdint.h>
+#include <stdbool.h>
 
-uint8_t frame[240 * 240 * 3];
+
+PICOTINKER_APP("Bad Apple");
+
 uint8_t expanded_frame[7200];
 
 bool XzDecode(const uint8_t *InputBuffer, uint32_t InputSize,
@@ -16,20 +19,23 @@ void bad_apple() {
     uint32_t x;
 
     while (frames_main < frames_end) {
-        uint64_t start = time_us_64();
-        uint16_t size = (frames_main[0]) | (frames_main[1] << 8);
+        x = sizeof(expanded_frame);
+        uint8_t *frame = hil_get_display_buffer();
+        uint64_t start = hil_get_time_us();
+        uint16_t size = ((uint16_t) frames_main[0]) | (((uint16_t) frames_main[1]) << 8);
         frames_main += 2;
 
         XzDecode(frames_main, size, expanded_frame, &x);
-        for (int i = 0; i < sizeof(frame); i++) {
+        for (int i = 0; i < SCREEN_SIZE_X * SCREEN_SIZE_Y * 3; i++) {
             frame[i] = ((expanded_frame[i / 24] >> (7 - ((i / 3) & 7))) & 1)
                            ? 0xFF
                            : 0;
         }
 
         frames_main += size;
-        display_send_framebuffer_dma(frame, sizeof(frame));
-        while ((time_us_64() - start) < 43470) {
+        hil_display();
+        while ((hil_get_time_us() - start) < 43470) {
+            hil_tight_loop();
         }
     }
 }

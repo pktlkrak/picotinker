@@ -43,33 +43,18 @@ else()
         project(pico_tinker C)
 endif()
 
-add_executable(pico_tinker
+if (NOT PICO_TINKER_EMULATOR_BUILD)
+
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -T ../app_link.ld")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mno-pic-data-is-text-relative -mno-single-pic-base")
+
+endif()
+
+# Welcome in C hell :)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -shared -fPIC")
+
+
+add_executable(bad_apple
         main.c
          minlzma/minlzlib/inputbuf.c minlzma/minlzlib/dictbuf.c minlzma/minlzlib/lzma2dec.c minlzma/minlzlib/lzmadec.c minlzma/minlzlib/rangedec.c minlzma/minlzlib/xzcrc.c minlzma/minlzlib/xzstream.c
         )
-
-add_subdirectory(hil)
-
-target_link_libraries(pico_tinker
-        pico_tinker_hil
-        )
-
-if (NOT PICO_TINKER_EMULATOR_BUILD)
-
-add_subdirectory(hardware)
-
-target_link_libraries(pico_tinker
-        pico_tinker_hardware
-        )
-
-pico_add_extra_outputs(pico_tinker)
-
-else()
-
-add_subdirectory(emulator)
-
-target_link_libraries(pico_tinker
-        pico_tinker_emulator
-        )
-
-endif()
