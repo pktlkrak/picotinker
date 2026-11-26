@@ -14865,8 +14865,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x08")
-		(at 182.88 265.43 90)
-		(mirror x)
+		(at 185.42 265.43 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -14896,7 +14895,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
-			(at 182.88 265.43 0)
+			(at 185.42 265.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14907,7 +14906,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 182.88 265.43 0)
+			(at 185.42 265.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14918,7 +14917,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 182.88 265.43 0)
+			(at 185.42 265.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16125,7 +16124,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 138.43 171.4499 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16207,7 +16206,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 138.43 139.6999 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16749,7 +16748,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 281.94 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16852,7 +16851,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 138.43 107.9499 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17216,7 +17215,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7μF"
+		(property "Value" "4.7uF"
 			(at 231.14 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17806,7 +17805,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 138.43 154.9399 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17990,7 +17989,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100n"
+		(property "Value" "100nF"
 			(at 55.88 169.418 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18186,7 +18185,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 294.64 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19654,6 +19653,82 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 321.31 245.11 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4bec6f4a-3e8c-4257-bd5f-297d12210fc6")
+		(property "Reference" "H11"
+			(at 323.85 243.8399 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 323.85 246.3799 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 321.31 245.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 321.31 245.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 321.31 245.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Picotinker"
+				(path "/75796f0e-c7bb-4022-b2fb-227ab57b0aaa"
+					(reference "H11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 238.76 160.02 0)
 		(unit 1)
@@ -20228,7 +20303,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 92.71 171.4499 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20310,7 +20385,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100n"
+		(property "Value" "100nF"
 			(at 86.36 212.0899 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20988,7 +21063,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "1k"
 			(at 118.11 257.81 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21069,7 +21144,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 345.44 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21960,7 +22035,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 160.02 62.2299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -22141,7 +22216,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7μF"
+		(property "Value" "4.7uF"
 			(at 134.62 62.2299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23230,7 +23305,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 138.43 93.9799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23609,7 +23684,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 332.74 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23711,7 +23786,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100n"
+		(property "Value" "100nF"
 			(at 332.74 68.58 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23950,6 +24025,82 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
+		(at 321.31 240.03 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8aea9b44-17dd-49d7-9115-5edc6957a0b4")
+		(property "Reference" "H10"
+			(at 323.85 238.7599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 323.85 241.2999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 321.31 240.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 321.31 240.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 321.31 240.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Picotinker"
+				(path "/75796f0e-c7bb-4022-b2fb-227ab57b0aaa"
+					(reference "H10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
 		(at 321.31 194.31 0)
 		(unit 1)
 		(body_style 1)
@@ -24047,7 +24198,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 256.54 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24983,7 +25134,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "1k"
 			(at 262.89 242.5699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -25169,7 +25320,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 356.87 57.1499 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -25759,7 +25910,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "ab05e1c2-f60e-44bc-87d4-d80d4e139c4e")
 		(property "Reference" "C38"
 			(at 307.34 27.9399 0)
@@ -25772,8 +25922,8 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
-			(at 307.34 30.4799 0)
+		(property "Value" "100nF"
+			(at 307.594 30.226 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -25960,7 +26110,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 92.71 123.1899 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -26119,7 +26269,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 243.84 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -26222,7 +26372,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 87.63 62.2299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -26411,7 +26561,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 147.32 62.2299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -26514,7 +26664,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7μF"
+		(property "Value" "4.7uF"
 			(at 240.03 68.5799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -26722,7 +26872,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100n"
+		(property "Value" "100nF"
 			(at 318.77 91.948 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -26794,7 +26944,7 @@
 		(dnp no)
 		(uuid "bd7fd34b-3f4f-497f-b153-575dd9489f29")
 		(property "Reference" "C39"
-			(at 312.42 27.9399 0)
+			(at 323.342 27.686 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -26804,8 +26954,8 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
-			(at 312.42 30.4799 0)
+		(property "Value" "100nF"
+			(at 324.612 30.226 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -28152,7 +28302,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 92.71 139.6999 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -28390,7 +28540,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "1k"
 			(at 252.73 242.5699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -29085,7 +29235,7 @@
 				)
 			)
 		)
-		(property "Value" "100n"
+		(property "Value" "100nF"
 			(at 289.56 76.835 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -29814,7 +29964,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 138.43 123.1899 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -29896,7 +30046,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100nF"
 			(at 92.71 154.9399 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -30310,7 +30460,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 269.24 30.4799 0)
 			(show_name no)
 			(do_not_autoplace no)

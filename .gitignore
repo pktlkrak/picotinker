@@ -4,3 +4,5 @@ pico_sdk_import.cmake
 hardware/*backups/
 hardware/*.bak
 hardware/*.lck
+hardware/production/
+
