@@ -10455,6 +10455,16 @@
 	)
 	(wire
 		(pts
+			(xy 121.92 57.15) (xy 121.92 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "257f9369-d5e7-4721-b74a-fe4ef434aa6a")
+	)
+	(wire
+		(pts
 			(xy 88.9 260.35) (xy 97.79 260.35)
 		)
 		(stroke
@@ -11975,6 +11985,16 @@
 	)
 	(wire
 		(pts
+			(xy 121.92 66.04) (xy 121.92 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "88180776-bfd5-4171-80c4-611d06977507")
+	)
+	(wire
+		(pts
 			(xy 210.82 60.96) (xy 213.36 60.96)
 		)
 		(stroke
@@ -12262,6 +12282,16 @@
 			(type default)
 		)
 		(uuid "9d5cc58f-f6e0-4a19-8205-3d586ef671b7")
+	)
+	(wire
+		(pts
+			(xy 121.92 66.04) (xy 130.81 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9e97115e-65aa-4ea2-8886-e6300eb4a4eb")
 	)
 	(wire
 		(pts
@@ -12842,6 +12872,16 @@
 			(type default)
 		)
 		(uuid "c3cbeb8d-d1e3-452d-9d5e-078c3d67d8fe")
+	)
+	(wire
+		(pts
+			(xy 121.92 53.34) (xy 130.81 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c7ec8e70-d113-41e6-85d9-814e124595ab")
 	)
 	(wire
 		(pts
@@ -14858,6 +14898,110 @@
 			(project "Picotinker"
 				(path "/75796f0e-c7bb-4022-b2fb-227ab57b0aaa"
 					(reference "R49")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 121.92 60.96 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "012c6299-f6a5-4a47-94c6-424d71efb192")
+		(property "Reference" "C43"
+			(at 125.73 59.6899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4.7uF"
+			(at 125.73 62.2299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 122.8852 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 121.92 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MFGR" "Murata"
+			(at 121.92 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "GRM155D80E475ME47J"
+			(at 121.92 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "90f1de7d-69c1-453f-8b9a-aeee70e1894b")
+		)
+		(pin "2"
+			(uuid "f4374a47-ea82-49f7-854a-fc0a9c2d6b1f")
+		)
+		(instances
+			(project "Picotinker"
+				(path "/75796f0e-c7bb-4022-b2fb-227ab57b0aaa"
+					(reference "C43")
 					(unit 1)
 				)
 			)
@@ -29602,6 +29746,84 @@
 			(project "Picotinker"
 				(path "/75796f0e-c7bb-4022-b2fb-227ab57b0aaa"
 					(reference "#PWR048")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 134.62 96.52 0)
+		(mirror y)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "eb7bb65e-55da-48f4-844f-fe3ef2c789ee")
+		(property "Reference" "#PWR085"
+			(at 134.62 102.87 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 134.62 101.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 134.62 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 134.62 96.52 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "1d0e3ea2-e3b0-4eca-8f21-88c1f94c41a9")
+		)
+		(instances
+			(project "Picotinker"
+				(path "/75796f0e-c7bb-4022-b2fb-227ab57b0aaa"
+					(reference "#PWR085")
 					(unit 1)
 				)
 			)
